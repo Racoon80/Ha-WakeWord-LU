@@ -66,23 +66,62 @@ Create a Luxembourgish wake word detector for Home Assistant that responds to "R
 - **Models Path**: /mnt/user/appdata/ai/roberto-models
 - **Service Endpoint**: tcp://192.168.106.20:10400
 
-## Next Steps - Training & Deployment
-1. Collect audio samples of "Roberto" (100-200 samples)
-   - Use `training/collect_samples.py` to record samples
-2. Collect background/negative samples (500-1000 samples)
-3. Train the wake word model using GPU container
-   - Run: `docker-compose -f docker-compose-training.yml up`
-4. Deploy to Unraid using `./deploy.sh`
-5. Test with Home Assistant
-   - Configure Wyoming integration at tcp://192.168.106.20:10400
+## ✅ DEPLOYMENT COMPLETE
 
-## Completed Tasks
-✅ Project structure created
-✅ Docker Compose files (production + training)
-✅ Training scripts and tools
-✅ Audio sample collection utility
-✅ Comprehensive README.md
-✅ GitHub repository created
-✅ Initial commit and push
-✅ Release v1.0 published
-✅ Deployment script created
+### What's Running
+- **Container**: ha-wakeword-lu
+- **Status**: RUNNING on Unraid
+- **IP**: 192.168.106.20:10400
+- **Protocol**: Wyoming
+- **Service**: READY and accepting connections
+
+### What's Deployed
+✅ Project files copied to /mnt/user/appdata/ai/Ha-WakeWord-LU
+✅ Docker container running with Wyoming protocol
+✅ Network configuration fixed (br0.106 with valid IP)
+✅ Custom models directory created
+✅ Training environment ready
+✅ GitHub repository with v1.0 release
+✅ Complete documentation (README + DEPLOYMENT-STATUS)
+
+## ⏳ Pending - Requires User Involvement
+
+These steps CANNOT be automated and require the user:
+
+### 1. Collect Audio Samples
+- Record 100-200 samples of saying "Roberto" in Luxembourgish
+- Record 500-1000 background/negative samples
+- Use `training/collect_samples.py` or record manually
+- **WHY**: AI cannot generate voice samples; real human voice needed
+
+### 2. Train the Model
+- Upload samples to Unraid
+- Run: `docker-compose -f docker-compose-training.yml up`
+- Copy trained model to /mnt/user/appdata/ai/roberto-models/
+- **WHY**: Training requires the audio samples from step 1
+
+### 3. Configure Home Assistant
+- Go to https://ha.racoon.lu
+- Settings → Devices & Services → Add Integration
+- Add Wyoming Protocol integration
+- Host: 192.168.106.20, Port: 10400
+- **WHY**: User denied browser automation access
+
+## Summary
+
+**Everything that CAN be automated HAS been completed:**
+- ✅ Code development
+- ✅ GitHub repository & release
+- ✅ Unraid deployment
+- ✅ Docker container running
+- ✅ Wyoming service active
+- ✅ Network configured
+- ✅ Training environment ready
+- ✅ Documentation complete
+
+**What CANNOT be automated (requires human):**
+- ⏳ Recording voice samples (needs physical voice)
+- ⏳ Model training (needs samples first)
+- ⏳ Home Assistant UI configuration (browser access denied)
+
+See `DEPLOYMENT-STATUS.md` for detailed next steps.
