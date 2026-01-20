@@ -22,7 +22,7 @@ services:
               capabilities: [gpu]
     networks:
       br0.106:
-        ipv4_address: 192.168.106.50
+        ipv4_address: 192.168.106.21
 
 networks:
   br0.106:

@@ -16,7 +16,7 @@ Create a Luxembourgish wake word detector for Home Assistant that responds to "R
 - **Engine**: openWakeWord
 - **Protocol**: Wyoming
 - **Deployment**: Docker on Unraid
-- **Network**: br0.106 (192.168.106.51:10400)
+- **Network**: br0.106 (192.168.106.20:10400)
 - **Path**: /mnt/user/appdata/ai
 - **GPU**: Available for training
 
@@ -28,7 +28,7 @@ Create a Luxembourgish wake word detector for Home Assistant that responds to "R
 - `docker-compose.yml` - Production deployment with Wyoming protocol
   - Container: ha-wakeword-lu
   - Port: 10400
-  - Network: br0.106 with static IP 192.168.106.51
+  - Network: br0.106 with static IP 192.168.106.20
   - Custom model directory: /mnt/user/appdata/ai/roberto-models
 
 - `docker-compose-training.yml` - GPU-accelerated training container
@@ -64,7 +64,7 @@ Create a Luxembourgish wake word detector for Home Assistant that responds to "R
 - **Script**: `deploy.sh` created for automated Unraid deployment
 - **Target**: 192.168.10.100:/mnt/user/appdata/ai/Ha-WakeWord-LU
 - **Models Path**: /mnt/user/appdata/ai/roberto-models
-- **Service Endpoint**: tcp://192.168.106.51:10400
+- **Service Endpoint**: tcp://192.168.106.20:10400
 
 ## Next Steps - Training & Deployment
 1. Collect audio samples of "Roberto" (100-200 samples)
@@ -74,7 +74,7 @@ Create a Luxembourgish wake word detector for Home Assistant that responds to "R
    - Run: `docker-compose -f docker-compose-training.yml up`
 4. Deploy to Unraid using `./deploy.sh`
 5. Test with Home Assistant
-   - Configure Wyoming integration at tcp://192.168.106.51:10400
+   - Configure Wyoming integration at tcp://192.168.106.20:10400
 
 ## Completed Tasks
 ✅ Project structure created

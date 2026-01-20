@@ -21,7 +21,7 @@ services:
       - "10400:10400"
     networks:
       br0.106:
-        ipv4_address: 192.168.106.51
+        ipv4_address: 192.168.106.20
 
 networks:
   br0.106:

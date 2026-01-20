@@ -19,7 +19,7 @@ This project provides a custom wake word detector for Home Assistant that respon
 - **Wake Word Engine**: openWakeWord
 - **Protocol**: Wyoming
 - **Deployment**: Docker on Unraid
-- **Network**: br0.106 (192.168.106.51)
+- **Network**: br0.106 (192.168.106.20)
 - **Path**: /mnt/user/appdata/ai
 
 ## Quick Start
@@ -45,7 +45,7 @@ cd Ha-WakeWord-LU
 docker-compose up -d
 ```
 
-3. Configure Home Assistant to use the wake word service at `tcp://192.168.106.51:10400`
+3. Configure Home Assistant to use the wake word service at `tcp://192.168.106.20:10400`
 
 ## Training Your Own Model
 
@@ -96,20 +96,20 @@ docker-compose restart
 The service is configured to:
 - Listen on port 10400 (Wyoming protocol)
 - Load custom model from `/mnt/user/appdata/ai/roberto-models/`
-- Use static IP 192.168.106.51 on network br0.106
+- Use static IP 192.168.106.20 on network br0.106
 
 ### Home Assistant Integration
 
 Add to your `configuration.yaml`:
 ```yaml
 wyoming:
-  - uri: tcp://192.168.106.51:10400
+  - uri: tcp://192.168.106.20:10400
 ```
 
 Or configure via UI:
 1. Settings → Devices & Services
 2. Add Integration → Wyoming Protocol
-3. Host: 192.168.106.51
+3. Host: 192.168.106.20
 4. Port: 10400
 
 ## File Structure
@@ -147,7 +147,7 @@ Ha-WakeWord-LU/
 ### Connection issues
 - Verify network br0.106 is configured
 - Check firewall rules for port 10400
-- Test connection: `nc -zv 192.168.106.51 10400`
+- Test connection: `nc -zv 192.168.106.20 10400`
 
 ## Technical Details
 
