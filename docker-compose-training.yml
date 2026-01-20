@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  wakeword-trainer:
+    container_name: roberto-wakeword-trainer
+    image: tensorflow/tensorflow:latest-gpu
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - /mnt/user/appdata/ai/roberto-training:/workspace
+      - ./training:/training
+    working_dir: /workspace
+    command: bash -c "pip install openwakeword && python -m openwakeword.train"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      br0.106:
+        ipv4_address: 192.168.106.50
+
+networks:
+  br0.106:
+    external: true

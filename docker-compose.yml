@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ha-wakeword-lu:
+    container_name: ha-wakeword-lu
+    image: rhasspy/wyoming-openwakeword:latest
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Luxembourg
+    volumes:
+      # Mount custom models directory
+      - /mnt/user/appdata/ai/roberto-models:/custom-models
+      # Mount preload models config
+      - ./config:/config
+    command: >
+      --uri tcp://0.0.0.0:10400
+      --custom-model-dir /custom-models
+      --preload-model roberto_lb
+      --debug
+    ports:
+      - "10400:10400"
+    networks:
+      br0.106:
+        ipv4_address: 192.168.106.51
+
+networks:
+  br0.106:
+    external: true
