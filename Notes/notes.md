@@ -55,11 +55,34 @@ Create a Luxembourgish wake word detector for Home Assistant that responds to "R
   - Home Assistant integration
   - Troubleshooting section
 
-## Next Steps
+## GitHub Repository
+- **URL**: https://github.com/Racoon80/Ha-WakeWord-LU
+- **Release**: v1.0 - https://github.com/Racoon80/Ha-WakeWord-LU/releases/tag/v1.0
+- **Status**: Public repository with complete documentation
+
+## Deployment
+- **Script**: `deploy.sh` created for automated Unraid deployment
+- **Target**: 192.168.10.100:/mnt/user/appdata/ai/Ha-WakeWord-LU
+- **Models Path**: /mnt/user/appdata/ai/roberto-models
+- **Service Endpoint**: tcp://192.168.106.51:10400
+
+## Next Steps - Training & Deployment
 1. Collect audio samples of "Roberto" (100-200 samples)
+   - Use `training/collect_samples.py` to record samples
 2. Collect background/negative samples (500-1000 samples)
 3. Train the wake word model using GPU container
-4. Deploy trained model to openWakeWord container
+   - Run: `docker-compose -f docker-compose-training.yml up`
+4. Deploy to Unraid using `./deploy.sh`
 5. Test with Home Assistant
-6. Create GitHub repository
-7. Push code and create v1.0 release
+   - Configure Wyoming integration at tcp://192.168.106.51:10400
+
+## Completed Tasks
+✅ Project structure created
+✅ Docker Compose files (production + training)
+✅ Training scripts and tools
+✅ Audio sample collection utility
+✅ Comprehensive README.md
+✅ GitHub repository created
+✅ Initial commit and push
+✅ Release v1.0 published
+✅ Deployment script created
