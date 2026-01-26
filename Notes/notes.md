@@ -125,3 +125,142 @@ These steps CANNOT be automated and require the user:
 - ⏳ Home Assistant UI configuration (browser access denied)
 
 See `DEPLOYMENT-STATUS.md` for detailed next steps.
+
+---
+
+## Porcupine "Albert" Implementation
+
+### Date: 2026-01-26
+
+### Alternative Wake Word Approach
+
+Added **Porcupine by Picovoice** implementation as an alternative to openWakeWord:
+
+#### Why Porcupine?
+- **Easier setup**: Web-based training (no manual sample collection)
+- **Faster deployment**: Train and deploy in 10 minutes
+- **Higher accuracy**: Industry-leading wake word detection
+- **Lower CPU usage**: Highly optimized on-device processing
+- **Custom wake words**: Easy to create "Albert" or other Luxembourgish words
+
+#### Wake Word: "Albert"
+- Chosen for Luxembourgish assistant
+- Could reference Albert II, Grand Duke of Luxembourg
+- Short, distinct, easy to pronounce
+- Works well with Porcupine's algorithms
+
+### Files Created for Porcupine
+
+#### Porcupine Implementation
+- `porcupine-wakeword/wyoming_porcupine.py` - Wyoming protocol server for Porcupine
+  - Event handling for Wyoming protocol
+  - Audio chunk processing (16kHz, 16-bit PCM)
+  - Frame-based detection (512 samples per frame)
+  - Support for custom and built-in wake words
+
+- `porcupine-wakeword/requirements.txt` - Dependencies
+  - wyoming==1.5.2
+  - pvporcupine>=3.0.0
+
+- `porcupine-wakeword/Dockerfile` - Container with Python 3.11 and audio support
+
+- `porcupine-wakeword/start.sh` - Startup script
+  - Access key validation
+  - Auto-detection of custom .ppn models
+  - Fallback to built-in keywords if no custom models
+
+#### Deployment Configuration
+- `docker-compose-porcupine.yml` - Porcupine-specific deployment
+  - Container: ha-wakeword-albert
+  - Port: 10400 (same as openWakeWord)
+  - Network: br0.106 with IP 192.168.106.20
+  - Volume mount for custom models: ./models:/app/models
+  - No GPU needed (CPU only)
+
+#### Documentation
+- `README-PORCUPINE.md` - Comprehensive Porcupine documentation
+  - Why "Albert" for Luxembourgish
+  - Complete setup guide
+  - Training instructions via Picovoice Console
+  - Home Assistant integration
+  - Troubleshooting guide
+  - Comparison with openWakeWord
+
+- `SETUP-ALBERT.md` - Quick setup guide (10-minute deployment)
+  - Step-by-step Picovoice account creation
+  - Access key generation
+  - Wake word training walkthrough
+  - Unraid deployment (manual + script options)
+  - Home Assistant configuration
+  - Testing procedures
+
+### Setup Requirements
+
+#### Prerequisites
+1. **Picovoice Access Key** (Free)
+   - Sign up: https://console.picovoice.ai/
+   - Create access key
+   - Set as: `PORCUPINE_ACCESS_KEY`
+
+2. **Custom Wake Word Model** (albert.ppn)
+   - Train at Picovoice Console
+   - Download .ppn file
+   - Place in `./models/albert.ppn`
+
+#### Built-in Wake Words Available
+If you don't want to train "Albert", Porcupine includes:
+- computer, jarvis, alexa
+- hey google, ok google, hey siri
+- picovoice, porcupine
+- bumblebee, grasshopper, terminator
+- americano, blueberry, grapefruit
+
+### Deployment Options
+
+You now have TWO wake word implementations:
+
+#### Option 1: openWakeWord with "Roberto"
+```bash
+docker-compose up -d  # Uses docker-compose.yml
+```
+- Custom TensorFlow training
+- Manual sample collection
+- Better for highly customized words
+
+#### Option 2: Porcupine with "Albert"
+```bash
+docker-compose -f docker-compose-porcupine.yml up -d
+```
+- Web-based training
+- Faster setup (10 minutes)
+- Higher accuracy
+- Recommended for quick deployment
+
+### Quick Start: Porcupine "Albert"
+
+1. **Get Access Key**: https://console.picovoice.ai/ → Access Keys
+2. **Train "Albert"**: Porcupine section → Train Wake Word
+3. **Download Model**: Save `albert.ppn` to `./models/`
+4. **Create .env**: `echo "PORCUPINE_ACCESS_KEY=your_key" > .env`
+5. **Deploy**: `docker-compose -f docker-compose-porcupine.yml up -d`
+6. **Configure HA**: Settings → Devices & Services → Wyoming Protocol
+7. **Test**: Say "Albert" and issue command in Luxembourgish
+
+### Next Steps for Porcupine
+
+- [ ] Sign up for Picovoice account
+- [ ] Generate access key
+- [ ] Train "Albert" wake word via web interface
+- [ ] Download albert.ppn model
+- [ ] Deploy to Unraid using docker-compose-porcupine.yml
+- [ ] Add to Home Assistant
+- [ ] Test with Luxembourgish voice pipeline
+
+### Status: Ready for Deployment
+
+All Porcupine code is complete and ready. User just needs to:
+1. Create Picovoice account (2 min)
+2. Train "Albert" wake word (5 min)
+3. Deploy container (5 min)
+
+**Total setup time: ~15 minutes** (vs hours for openWakeWord training)

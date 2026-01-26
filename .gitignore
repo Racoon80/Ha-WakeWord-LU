@@ -37,3 +37,14 @@ ai/
 # Temporary files
 *.tmp
 *.bak
+
+# Porcupine wake word models
+models/*.ppn
+!models/.gitkeep
+
+# Environment variables (contains Picovoice access key)
+.env
+.env.local
+
+# Downloaded wake word models
+*.pv

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  porcupine-albert:
+    build:
+      context: ./porcupine-wakeword
+      dockerfile: Dockerfile
+    container_name: ha-wakeword-albert
+    restart: unless-stopped
+
+    environment:
+      # REQUIRED: Get your free access key from https://console.picovoice.ai/
+      - ACCESS_KEY=${PORCUPINE_ACCESS_KEY}
+
+      # Wake word name (must match the .ppn filename)
+      - KEYWORDS=albert
+
+      # Optional: Detection sensitivity (0.0-1.0, default: 0.5)
+      # Higher = more sensitive (more false positives)
+      # Lower = less sensitive (might miss wake words)
+      - SENSITIVITY=0.5
+
+      # Server configuration
+      - HOST=0.0.0.0
+      - PORT=10400
+
+      # Custom model directory
+      - CUSTOM_MODEL_DIR=/app/models
+
+      - TZ=Europe/Luxembourg
+
+    ports:
+      - "10400:10400"
+
+    volumes:
+      # Mount directory containing custom wake word model (albert.ppn)
+      # Place your trained albert.ppn file in ./models/ directory
+      - ./models:/app/models:ro
+
+    # No GPU needed - Porcupine runs efficiently on CPU
+
+    networks:
+      br0.106:
+        ipv4_address: 192.168.106.20
+
+networks:
+  br0.106:
+    external: true
